@@ -1,13 +1,13 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 import pandas as pd
 from datetime import datetime, timedelta
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=\'../frontend\')
 CORS(app)  # Permitir CORS para todas as rotas
 
-EXCEL_FILE = 'ponto_diario.xlsx'
+EXCEL_FILE = \'ponto_diario.xlsx\'
 
 def get_excel_path():
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), EXCEL_FILE)
@@ -15,13 +15,16 @@ def get_excel_path():
 def initialize_excel():
     file_path = get_excel_path()
     if not os.path.exists(file_path):
-        df = pd.DataFrame(columns=['Data', 'Entrada', 'Saída Almoço', 'Retorno Almoço', 'Saída', 'Horas Trabalhadas', 'Horas Extras'])
+        df = pd.DataFrame(columns=[\'Data\', \'Entrada\', \'Saída Almoço\', \'Retorno Almoço\', \'Saída\', \'Horas Trabalhadas\', \'Horas Extras\'])
         df.to_excel(file_path, index=False)
 
-@app.route('/')
+@app.route(\'/\')
 def index():
-    return 'Backend do Registro de Ponto Diário está funcionando!'
+    return send_from_directory(app.static_folder, \'index.html\')
 
+@app.route(\'/<path:filename>\')
+def serve_static(filename):
+    return send_from_directory(app.static_folder, filename)
 @app.route('/register_point', methods=['POST'])
 def register_point():
     data = request.json
