@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Ponto Diário</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-clock"></i> Registro de Ponto</h1>
+                <p class="subtitle">Controle suas horas de trabalho diárias</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Resumo do Dia -->
+            <section class="summary-section">
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-business-time"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Horas Trabalhadas</h3>
+                            <p id="horas-trabalhadas">0:00:00</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Horas Extras</h3>
+                            <p id="horas-extras">0:00:00</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Tempo de Almoço</h3>
+                            <p id="tempo-almoco">0:00:00</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Registro de Pontos -->
+            <section class="register-section">
+                <div class="register-card">
+                    <h2><i class="fas fa-edit"></i> Registrar Ponto</h2>
+                    <form id="ponto-form">
+                        <div class="form-group">
+                            <label for="data">Data:</label>
+                            <input type="date" id="data" name="data" required>
+                        </div>
+                        
+                        <div class="time-inputs">
+                            <div class="time-group">
+                                <label for="entrada">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Entrada
+                                </label>
+                                <input type="time" id="entrada" name="entrada" value="07:00">
+                            </div>
+                            
+                            <div class="time-group">
+                                <label for="saida-almoco">
+                                    <i class="fas fa-utensils"></i>
+                                    Saída Almoço
+                                </label>
+                                <input type="time" id="saida-almoco" name="saida-almoco">
+                            </div>
+                            
+                            <div class="time-group">
+                                <label for="retorno-almoco">
+                                    <i class="fas fa-undo"></i>
+                                    Retorno Almoço
+                                </label>
+                                <input type="time" id="retorno-almoco" name="retorno-almoco">
+                            </div>
+                            
+                            <div class="time-group">
+                                <label for="saida">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Saída
+                                </label>
+                                <input type="time" id="saida" name="saida" value="17:30">
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Registrar Ponto
+                            </button>
+                            <button type="button" id="btn-calcular-almoco" class="btn btn-secondary">
+                                <i class="fas fa-calculator"></i>
+                                Calcular Retorno (1h12m)
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Horários Registrados -->
+            <section class="registered-section">
+                <div class="registered-card">
+                    <h2><i class="fas fa-list"></i> Horários de Hoje</h2>
+                    <div id="horarios-registrados" class="horarios-display">
+                        <div class="horario-item">
+                            <span class="horario-label">Entrada:</span>
+                            <span id="display-entrada">--:--</span>
+                        </div>
+                        <div class="horario-item">
+                            <span class="horario-label">Saída Almoço:</span>
+                            <span id="display-saida-almoco">--:--</span>
+                        </div>
+                        <div class="horario-item">
+                            <span class="horario-label">Retorno Almoço:</span>
+                            <span id="display-retorno-almoco">--:--</span>
+                        </div>
+                        <div class="horario-item">
+                            <span class="horario-label">Saída:</span>
+                            <span id="display-saida">--:--</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ações -->
+            <section class="actions-section">
+                <div class="actions-card">
+                    <h2><i class="fas fa-download"></i> Exportar Dados</h2>
+                    <p>Baixe sua planilha de registro de pontos para salvar no OneDrive.</p>
+                    <button id="btn-exportar" class="btn btn-success">
+                        <i class="fas fa-file-excel"></i>
+                        Baixar Planilha Excel
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Registro de Ponto Diário - Desenvolvido com ❤️</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Processando...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
