@@ -1,5 +1,5 @@
 // Configurações
-const API_BASE_URL = 'registropontodiario8h48m-production.up.railway.app'
+const API_BASE_URL = 'registropontodiario8h48m-production.up.railway.app';
 
 
 // Elementos DOM
