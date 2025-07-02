@@ -1,5 +1,6 @@
 // Configurações
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'https://ponto-production-012d.up.railway.app';
+
 
 // Elementos DOM
 const form = document.getElementById('ponto-form');
